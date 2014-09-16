@@ -1,0 +1,31 @@
+{
+    "appKeys": {},
+    "capabilities": [
+        ""
+    ],
+    "companyName": "Nicholas C.",
+    "longName": "The World's Business Hours",
+    "projectType": "native",
+    "resources": {
+        "media": [
+            {
+                "file": "images/business.png",
+                "name": "BUSINESS_HOURS",
+                "type": "png-trans"
+            },
+            {
+                "file": "images/world.png",
+                "menuIcon": true,
+                "name": "MENU_IMAGE",
+                "type": "png"
+            }
+        ]
+    },
+    "shortName": "World Time",
+    "uuid": "0a378f2a-9ce9-497a-aac6-267a58c156d9",
+    "versionCode": 1,
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": true
+    }
+}
