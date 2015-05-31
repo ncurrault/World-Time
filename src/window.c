@@ -1,9 +1,13 @@
 #include "window.h"
 #include <pebble.h>
 
+float myModFunc(float x, float y) {
+	return x - y*(int)(x/y);
+}
+	
 static GBitmap *map_full;
 static GBitmap *map_part;
-	
+
 // BEGIN AUTO-GENERATED UI CODE; DO NOT MODIFY
 static Window *s_window;
 static GFont s_res_droid_serif_28_bold;
@@ -12,7 +16,7 @@ static TextLayer *s_time_display;
 
 static void initialise_ui(void) {
   s_window = window_create();
-  window_set_fullscreen(s_window, 1);
+  window_set_background_color(s_window, GColorBlack);
   
   s_res_droid_serif_28_bold = fonts_get_system_font(FONT_KEY_DROID_SERIF_28_BOLD);
   // s_map_display
@@ -20,7 +24,11 @@ static void initialise_ui(void) {
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_map_display);
   
   // s_time_display
-  s_time_display = text_layer_create(GRect(0, 57, 144, 30));
+  #ifdef PBL_COLOR
+    s_time_display = text_layer_create(GRect(0, 57, 144, 30));
+  #else
+    s_time_display = text_layer_create(GRect(0, 127, 144, 30));
+  #endif
   text_layer_set_background_color(s_time_display, GColorClear);
   text_layer_set_text_color(s_time_display, GColorWhite);
   text_layer_set_text(s_time_display, "00:00");
@@ -58,19 +66,20 @@ void handle_minute_tick(struct tm * tick_time, TimeUnits units_changed) {
 	clock_copy_time_string(time_text, sizeof(time_text));
 	text_layer_set_text(s_time_display, time_text);
 	
-	time_t* local_time = malloc(sizeof(local_time));
-	time(local_time);
-	struct tm* utc_time = gmtime(local_time);
-	
-	app_log(APP_LOG_LEVEL_DEBUG, "main.c", 47, "UTC: %i:%i", tick_time->tm_hour, tick_time->tm_min);
-	
-	int hours_for_placement = utc_time->tm_hour + (utc_time->tm_min/60.0); // Uses minutes as well as hours for more precision
-	
-	//int img_x_placement = (18*hours_for_placement) - 270;
-	int img_x_placement =  378 - (18 * hours_for_placement);
+	time_t local_time = time(NULL);
+	struct tm * utc_time = gmtime(&local_time);
+	app_log(APP_LOG_LEVEL_DEBUG, "window.c", 67, "UTC time: %i:%i", utc_time->tm_hour, utc_time->tm_min);
+	float hours_for_placement = utc_time->tm_hour + (utc_time->tm_min/60.0); // Uses minutes as well as hours for more precision
+
+	hours_for_placement = myModFunc(hours_for_placement, 24);
+	int img_x_placement =  432 - (18 * hours_for_placement);
 	
 	map_part = gbitmap_create_as_sub_bitmap(map_full, GRect(img_x_placement,0,144,168));
 	bitmap_layer_set_bitmap(s_map_display, map_part);
+	
+	app_log(APP_LOG_LEVEL_DEBUG, "window.c", 80, "h (map placement formula): %f", hours_for_placement);
+	app_log(APP_LOG_LEVEL_DEBUG, "window.c", 81, "local time: %i:%i", tick_time->tm_hour, tick_time->tm_min);
+	app_log(APP_LOG_LEVEL_DEBUG, "window.c", 82, "Map display: %ipx - %ipx", img_x_placement, img_x_placement+144);
 }
 
 void handle_init()

@@ -18,11 +18,9 @@
     "sdkVersion": "3",
     "shortName": "World 9-5",
     "targetPlatforms": [
-        "aplite",
         "basalt"
     ],
     "uuid": "0a378f2a-9ce9-497a-aac6-267a58c156d9",
-    "versionCode": 1,
     "versionLabel": "1.0",
     "watchapp": {
         "watchface": true
