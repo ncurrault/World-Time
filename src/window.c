@@ -68,7 +68,7 @@ void handle_minute_tick(struct tm * tick_time, TimeUnits units_changed) {
 	
 	time_t local_time = time(NULL);
 	struct tm * utc_time = gmtime(&local_time);
-	app_log(APP_LOG_LEVEL_DEBUG, "window.c", 67, "UTC time: %i:%i", utc_time->tm_hour, utc_time->tm_min);
+	app_log(APP_LOG_LEVEL_DEBUG, "window.c", 71, "UTC time: %i:%i", utc_time->tm_hour, utc_time->tm_min);
 	float hours_for_placement = utc_time->tm_hour + (utc_time->tm_min/60.0); // Uses minutes as well as hours for more precision
 
 	hours_for_placement = myModFunc(hours_for_placement, 24);

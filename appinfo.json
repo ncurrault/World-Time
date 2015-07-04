@@ -3,8 +3,8 @@
     "capabilities": [
         ""
     ],
-    "companyName": "nicholas818",
-    "longName": "World from 9AM to 5PM",
+    "companyName": "Nicholas Currault",
+    "longName": "World Time: 9-5",
     "projectType": "native",
     "resources": {
         "media": [
@@ -16,7 +16,7 @@
         ]
     },
     "sdkVersion": "3",
-    "shortName": "World 9-5",
+    "shortName": "World Time: 9-5",
     "targetPlatforms": [
         "basalt"
     ],
